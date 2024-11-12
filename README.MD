@@ -4,7 +4,7 @@ Repositorio de las consultas SQL (Structured Query Language) para cada una de la
 
 ## Importante
 
-En todas las consultas es necesario cambiar el texto <proyecto>.<dataset> por los valores correspondientes a los que creamos en nuestro espacio de GCP (Google Cloud Platform).
+En todas las consultas es necesario cambiar el texto "<proyecto>"."<dataset>" por los valores correspondientes a los que creamos en nuestro espacio de GCP (Google Cloud Platform).
 
 ## Para comenzar
 
