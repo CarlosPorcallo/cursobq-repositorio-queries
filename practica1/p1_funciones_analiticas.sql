@@ -4,7 +4,7 @@ SELECT​
     COUNT(c.customerID) as conteo,​
     country​
 FROM​
-    `<proyecto>.<dataset>.customer` AS c​
+    `<proyecto>.p1_carga_transformacion.customer` AS c​
 GROUP BY country​
 ORDER BY conteo desc​
 LIMIT 100;​
@@ -19,7 +19,7 @@ SELECT DISTINCT​
     c.country,​
     COUNT(c.customerID) OVER(PARTITION BY c.country) AS cuenta​
 FROM​
-    `<proyecto>.<dataset>.customer` AS c​
+    `<proyecto>.p1_carga_transformacion.customer` AS c​
 ORDER BY cuenta​
 LIMIT 100;​
 
@@ -27,7 +27,7 @@ SELECT DISTINCT​
     c.country,​
     COUNT(c.customerID) OVER(PARTITION BY c.country ORDER BY c.country) AS cuenta​
 FROM​
-    `<proyecto>.<dataset>.customer` AS c​
+    `<proyecto>.p1_carga_transformacion.customer` AS c​
 LIMIT 100;​
 
 /* Población de clientes por país (funciones analíticas) */​

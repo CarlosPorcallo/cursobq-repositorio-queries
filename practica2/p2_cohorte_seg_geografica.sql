@@ -7,8 +7,8 @@ WITH customer_country_count AS (
     cc.latitude,
     cc.longitude,
     COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
-  FROM `<proyecto>.<dataset>.customer` AS c
-  INNER JOIN `<proyecto>.<dataset>.country_coordinates` AS cc
+  FROM `<proyecto>.p2_cohortes.customer` AS c
+  INNER JOIN `<proyecto>.p2_cohortes.country_coordinates` AS cc
   ON cc.country = c.country
 )
 
@@ -36,14 +36,14 @@ ORDER BY conteo DESC
 SELECT DISTINCT
   COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
   c.country
-FROM `<proyecto>.<dataset>.customer` AS c
+FROM `<proyecto>.p2_cohortes.customer` AS c
 
 /* De ellos obtener aquel con mayor número de suscripciones  */
 WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 )
 
 SELECT 
@@ -58,7 +58,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -73,7 +73,7 @@ SELECT DISTINCT
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-FROM `<proyecto>.<dataset>.customer` AS c
+FROM `<proyecto>.p2_cohortes.customer` AS c
 WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
   
@@ -82,7 +82,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -97,7 +97,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 )
@@ -124,7 +124,7 @@ SELECT DISTINCT
   AS subscriptionMonth,
   COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
 FROM suscriptions_by_year_max_country AS symc
-INNER JOIN `<proyecto>.<dataset>.customer` as c
+INNER JOIN `<proyecto>.p2_cohortes.customer` as c
 ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
 WHERE
   c.country = symc.country
@@ -135,7 +135,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -150,7 +150,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 ),
@@ -186,7 +186,7 @@ subscriptions_by_month_year_max_country AS (
     AS subscriptionMonth,
     COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
   FROM suscriptions_by_year_max_country AS symc
-  INNER JOIN `<proyecto>.<dataset>.customer` as c
+  INNER JOIN `<proyecto>.p2_cohortes.customer` as c
   ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
   WHERE
     c.country = symc.country AND
@@ -212,7 +212,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -227,7 +227,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 ),
@@ -263,7 +263,7 @@ subscriptions_by_month_year_max_country AS (
     AS subscriptionMonth,
     COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
   FROM suscriptions_by_year_max_country AS symc
-  INNER JOIN `<proyecto>.<dataset>.customer` as c
+  INNER JOIN `<proyecto>.p2_cohortes.customer` as c
   ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
   WHERE
     c.country = symc.country AND
@@ -293,7 +293,7 @@ SELECT
   c.subscriptionDate,
   EXTRACT(month FROM c.subscriptionDate) AS subscriptionMonth,
   EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear
-FROM `<proyecto>.<dataset>.customer` AS c
+FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE 
     EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
     EXTRACT(month FROM c.subscriptionDate) = (SELECT msymmc.subscriptionMonthNumber FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -305,7 +305,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -320,7 +320,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 ),
@@ -356,7 +356,7 @@ subscriptions_by_month_year_max_country AS (
     AS subscriptionMonth,
     COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
   FROM suscriptions_by_year_max_country AS symc
-  INNER JOIN `<proyecto>.<dataset>.customer` as c
+  INNER JOIN `<proyecto>.p2_cohortes.customer` as c
   ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
   WHERE
     c.country = symc.country AND
@@ -385,8 +385,8 @@ SELECT
   c.country,
   c.city,
   c.subscriptionDate
-FROM `<proyecto>.<dataset>.customer` AS c
-INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr
+FROM `<proyecto>.p2_cohortes.customer` AS c
+INNER JOIN `<proyecto>.p2_cohortes.customer_reviewer` AS cr
 ON cr.customerID = c.customerID 
   WHERE 
     EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -399,7 +399,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -414,7 +414,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 ),
@@ -450,7 +450,7 @@ subscriptions_by_month_year_max_country AS (
     AS subscriptionMonth,
     COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
   FROM suscriptions_by_year_max_country AS symc
-  INNER JOIN `<proyecto>.<dataset>.customer` as c
+  INNER JOIN `<proyecto>.p2_cohortes.customer` as c
   ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
   WHERE
     c.country = symc.country AND
@@ -478,7 +478,7 @@ detail_customers_by_year_month_max_country AS (
     c.country,
     c.city,
     c.subscriptionDate
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
     WHERE 
       EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
       EXTRACT(month FROM c.subscriptionDate) = (SELECT msymmc.subscriptionMonthNumber FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -493,8 +493,8 @@ detail_reviewers_by_year_month_max_country AS (
       c.country,
       c.city,
       c.subscriptionDate
-    FROM `<proyecto>.<dataset>.customer` AS c
-    INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr
+    FROM `<proyecto>.p2_cohortes.customer` AS c
+    INNER JOIN `<proyecto>.p2_cohortes.customer_reviewer` AS cr
     ON cr.customerID = c.customerID 
       WHERE 
         EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -517,9 +517,9 @@ detail_reviews_by_year_month_max_country AS (
       mdm.description,
       mdm.categories
     FROM detail_reviewers_by_year_month_max_country AS drymmc
-    INNER JOIN `<proyecto>.<dataset>.review_digital_music` AS rdm
+    INNER JOIN `<proyecto>.p2_cohortes.review_digital_music` AS rdm
     ON rdm.reviewerID = drymmc.reviewerID
-    INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+    INNER JOIN `<proyecto>.p2_cohortes.meta_digital_music` AS mdm
     ON mdm.asin = rdm.asin
 )
 
@@ -534,7 +534,7 @@ WITH customer_country_count AS (
     SELECT DISTINCT
       COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
       c.country
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
 ),
 max_country_customer_count AS (
     SELECT 
@@ -549,7 +549,7 @@ suscriptions_by_year_max_country AS (
     c.country,
     EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
     COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
   WHERE
     c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
 ),
@@ -585,7 +585,7 @@ subscriptions_by_month_year_max_country AS (
     AS subscriptionMonth,
     COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
   FROM suscriptions_by_year_max_country AS symc
-  INNER JOIN `<proyecto>.<dataset>.customer` as c
+  INNER JOIN `<proyecto>.p2_cohortes.customer` as c
   ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
   WHERE
     c.country = symc.country AND
@@ -613,7 +613,7 @@ detail_customers_by_year_month_max_country AS (
     c.country,
     c.city,
     c.subscriptionDate
-  FROM `<proyecto>.<dataset>.customer` AS c
+  FROM `<proyecto>.p2_cohortes.customer` AS c
     WHERE 
       EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
       EXTRACT(month FROM c.subscriptionDate) = (SELECT msymmc.subscriptionMonthNumber FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -628,8 +628,8 @@ detail_reviewers_by_year_month_max_country AS (
       c.country,
       c.city,
       c.subscriptionDate
-    FROM `<proyecto>.<dataset>.customer` AS c
-    INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr
+    FROM `<proyecto>.p2_cohortes.customer` AS c
+    INNER JOIN `<proyecto>.p2_cohortes.customer_reviewer` AS cr
     ON cr.customerID = c.customerID 
       WHERE 
         EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -652,9 +652,9 @@ detail_reviews_by_year_month_max_country AS (
       mdm.description,
       mdm.categories
     FROM detail_reviewers_by_year_month_max_country AS drymmc
-    INNER JOIN `<proyecto>.<dataset>.review_digital_music` AS rdm
+    INNER JOIN `<proyecto>.p2_cohortes.review_digital_music` AS rdm
     ON rdm.reviewerID = drymmc.reviewerID
-    INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+    INNER JOIN `<proyecto>.p2_cohortes.meta_digital_music` AS mdm
     ON mdm.asin = rdm.asin
 ),
 count_categories_by_max_year_month_country AS (
@@ -728,12 +728,12 @@ FROM report
 ORDER BY report.sortby
 
 /* se crea una tabla con los resultados del reporte previo */
-CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
+CREATE OR REPLACE TABLE `<proyecto>.p2_cohortes.report_segmentation` AS (
     WITH customer_country_count AS (
         SELECT DISTINCT
         COUNT(c.customerID) OVER (PARTITION BY c.country) AS conteo,
         c.country
-        FROM `<proyecto>.<dataset>.customer` AS c
+        FROM `<proyecto>.p2_cohortes.customer` AS c
     ),
     max_country_customer_count AS (
         SELECT 
@@ -748,7 +748,7 @@ CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
         c.country,
         EXTRACT(year FROM c.subscriptionDate) AS subscriptionYear,
         COUNT(c.customerID) OVER (PARTITION BY EXTRACT(year FROM c.subscriptionDate) ORDER BY EXTRACT(year FROM c.subscriptionDate)) AS customerCount
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
     WHERE
         c.country = (SELECT mccc.country FROM max_country_customer_count AS mccc)
     ),
@@ -784,7 +784,7 @@ CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
         AS subscriptionMonth,
         COUNT(c.customerID) OVER (PARTITION BY FORMAT_DATE('%b-%Y', c.subscriptionDate)) AS customerCountByMonth
     FROM suscriptions_by_year_max_country AS symc
-    INNER JOIN `<proyecto>.<dataset>.customer` as c
+    INNER JOIN `<proyecto>.p2_cohortes.customer` as c
     ON EXTRACT(year from c.subscriptionDate) = symc.subscriptionYear
     WHERE
         c.country = symc.country AND
@@ -812,7 +812,7 @@ CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
         c.country,
         c.city,
         c.subscriptionDate
-    FROM `<proyecto>.<dataset>.customer` AS c
+    FROM `<proyecto>.p2_cohortes.customer` AS c
         WHERE 
         EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
         EXTRACT(month FROM c.subscriptionDate) = (SELECT msymmc.subscriptionMonthNumber FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -827,8 +827,8 @@ CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
         c.country,
         c.city,
         c.subscriptionDate
-        FROM `<proyecto>.<dataset>.customer` AS c
-        INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr
+        FROM `<proyecto>.p2_cohortes.customer` AS c
+        INNER JOIN `<proyecto>.p2_cohortes.customer_reviewer` AS cr
         ON cr.customerID = c.customerID 
         WHERE 
             EXTRACT(year FROM c.subscriptionDate) = (SELECT msymmc.subscriptionYear FROM max_subscriptions_by_month_year_max_country AS msymmc) AND
@@ -851,9 +851,9 @@ CREATE OR REPLACE TABLE `<proyecto>.<dataset>.report_segmentation` AS (
         mdm.description,
         mdm.categories
         FROM detail_reviewers_by_year_month_max_country AS drymmc
-        INNER JOIN `<proyecto>.<dataset>.review_digital_music` AS rdm
+        INNER JOIN `<proyecto>.p2_cohortes.review_digital_music` AS rdm
         ON rdm.reviewerID = drymmc.reviewerID
-        INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+        INNER JOIN `<proyecto>.p2_cohortes.meta_digital_music` AS mdm
         ON mdm.asin = rdm.asin
     ),
     count_categories_by_max_year_month_country AS (

@@ -5,7 +5,7 @@ SELECT​
     c.country,​
     c.city​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = 'Korea' AND​
     c.subscriptionDate BETWEEN DATE("2020-01-01") AND DATE("2020-12-12")​
@@ -24,7 +24,7 @@ SELECT​
     c.city,​
     c.company​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<country>' AND​
     c.city IN (​

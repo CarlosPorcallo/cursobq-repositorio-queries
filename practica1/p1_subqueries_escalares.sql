@@ -5,7 +5,7 @@ SELECT DISTINCT​
     mdm.categories,​
     mdm.description​
 FROM​
-    `<proyecto>.<dataset>.meta_digital_music` mdm​
+    `<proyecto>.p1_carga_transformacion.meta_digital_music` mdm​
 LIMIT 100;​
 
 /* Item con sus categorías */​
@@ -15,12 +15,12 @@ LIMIT 100;​
 SELECT​
     rdm.asin​
 FROM​
-    `<proyecto>.<dataset>.customer` AS c​
-INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr​
+    `<proyecto>.p1_carga_transformacion.customer` AS c​
+INNER JOIN `<proyecto>.p1_carga_transformacion.customer_reviewer` AS cr​
 ON cr.customerID = c.customerID​
-INNER JOIN `<proyecto>.<dataset>.review_digital_music` as rdm​
+INNER JOIN `<proyecto>.p1_carga_transformacion.review_digital_music` as rdm​
 ON rdm.reviewerID = cr.reviewerID​
-INNER JOIN `<proyecto>.<dataset>.meta_digital_music` as mdm​
+INNER JOIN `<proyecto>.p1_carga_transformacion.meta_digital_music` as mdm​
 ON mdm.asin = rdm.asin​
 WHERE​
     c.company IN (<company-list>) AND​
@@ -33,18 +33,18 @@ SELECT​
     mdm.categories,​
     mdm.description​
 FROM​
-    `<proyecto>.<dataset>.meta_digital_music` mdm​
+    `<proyecto>.p1_carga_transformacion.meta_digital_music` mdm​
 WHERE ​
     mdm.asin IN (​
         SELECT​
             rdm.asin​
         FROM​
-            `<proyecto>.<dataset>.customer` AS c​
-        INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr​
+            `<proyecto>.p1_carga_transformacion.customer` AS c​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.customer_reviewer` AS cr​
         ON cr.customerID = c.customerID​
-        INNER JOIN `<proyecto>.<dataset>.review_digital_music` as rdm​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.review_digital_music` as rdm​
         ON rdm.reviewerID = cr.reviewerID​
-        INNER JOIN `<proyecto>.<dataset>.meta_digital_music` as mdm​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.meta_digital_music` as mdm​
         ON mdm.asin = rdm.asin​
         WHERE​
             c.company IN (<company-list>) AND​
@@ -59,18 +59,18 @@ SELECT​
     ARRAY_TO_STRING(mdm.categories, ", ") AS categories,​
     mdm.description​
 FROM​
-    `<proyecto>.<dataset>.meta_digital_music` mdm​
+    `<proyecto>.p1_carga_transformacion.meta_digital_music` mdm​
 WHERE ​
     mdm.asin IN (​
         SELECT​
             rdm.asin​
         FROM​
-            `<proyecto>.<dataset>.customer` AS c​
-        INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr​
+            `<proyecto>.p1_carga_transformacion.customer` AS c​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.customer_reviewer` AS cr​
         ON cr.customerID = c.customerID​
-        INNER JOIN `<proyecto>.<dataset>.review_digital_music` as rdm​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.review_digital_music` as rdm​
         ON rdm.reviewerID = cr.reviewerID​
-        INNER JOIN `<proyecto>.<dataset>.meta_digital_music` as mdm​
+        INNER JOIN `<proyecto>.p1_carga_transformacion.meta_digital_music` as mdm​
         ON mdm.asin = rdm.asin
         WHERE
             c.company IN (<company-list>) AND​
@@ -99,12 +99,12 @@ FROM (​
         rdm.reviewText,​
         rdm.reviewTime​
     FROM​
-        `<proyecto>.<dataset>.customer` AS c​
-    INNER JOIN `<proyecto>.<dataset>.customer_reviewer` AS cr​
+        `<proyecto>.p1_carga_transformacion.customer` AS c​
+    INNER JOIN `<proyecto>.p1_carga_transformacion.customer_reviewer` AS cr​
     ON cr.customerID = c.customerID​
-    INNER JOIN `<proyecto>.<dataset>.review_digital_music` as rdm​
+    INNER JOIN `<proyecto>.p1_carga_transformacion.review_digital_music` as rdm​
     ON rdm.reviewerID = cr.reviewerID​
-    INNER JOIN `<proyecto>.<dataset>.meta_digital_music` as mdm​
+    INNER JOIN `<proyecto>.p1_carga_transformacion.meta_digital_music` as mdm​
     ON mdm.asin = rdm.asin​
     WHERE​
         c.company IN (<company-list>) AND​
@@ -121,7 +121,7 @@ SELECT
     ARRAY_TO_STRING(mdm.categories, ", "),​
     mdm.description​
 FROM​
-    `<proyecto>.<dataset>.meta_digital_music` AS mdm​
+    `<proyecto>.p1_carga_transformacion.meta_digital_music` AS mdm​
 WHERE​
     mdm.title IS NOT NULL​
 LIMIT​ 100; /* conocer conteo de reviews */​
@@ -135,12 +135,12 @@ SELECT​
     SELECT​
         COUNT(1) AS conteo​
     FROM​
-        `<proyecto>.<dataset>.review_digital_music` AS rdm​
+        `<proyecto>.p1_carga_transformacion.review_digital_music` AS rdm​
     WHERE​
         rdm.asin = mdm.asin​
     GROUP BY​ rdm.asin ) AS total_reviews​
 FROM​
-    `<proyecto>.<dataset>.meta_digital_music` AS mdm​
+    `<proyecto>.p1_carga_transformacion.meta_digital_music` AS mdm​
 WHERE​
     mdm.title IS NOT NULL​
 LIMIT​ 100; ​

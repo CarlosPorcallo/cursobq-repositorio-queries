@@ -1,5 +1,5 @@
 /* análisis de tendencias*/
-CREATE OR REPLACE VIEW `<proyecto>.<dataset>.tendencia_categorias_2013` AS (
+CREATE OR REPLACE VIEW `<proyecto>.p3_visualizacion_data.tendencia_categorias_2013` AS (
   WITH count_years_reviews AS (
     /* conteo de reviews por año */
     SELECT DISTINCT
@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW `<proyecto>.<dataset>.tendencia_categorias_2013` AS (
         EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
       ) AS reviewsCount
     FROM
-      `<proyecto>.<dataset>.review_digital_music` AS rdm
+      `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
     ORDER BY reviewsCount DESC
   ),
   max_count_years AS (
@@ -22,8 +22,8 @@ CREATE OR REPLACE VIEW `<proyecto>.<dataset>.tendencia_categorias_2013` AS (
     SELECT 
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
       mdm.categories
-    FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-    INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+    FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+    INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
     ON mdm.asin = rdm.asin
     WHERE 
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -66,8 +66,8 @@ CREATE OR REPLACE VIEW `<proyecto>.<dataset>.tendencia_categorias_2013` AS (
       END
       AS reviewmonth,
       mdm.categories
-    FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-    INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+    FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+    INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
     ON mdm.asin = rdm.asin
     WHERE 
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -116,7 +116,7 @@ SELECT DISTINCT
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
   ) AS reviewsCount
 FROM
-  `<proyecto>.<dataset>.review_digital_music` AS rdm
+  `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
 ORDER BY reviewsCount DESC
 
 /* - Del año con mayor número de reviews obtener el conteo de categorías */
@@ -128,7 +128,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -142,8 +142,8 @@ max_count_years AS (
 SELECT 
   EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
   mdm.categories
-FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
 ON mdm.asin = rdm.asin
 WHERE 
   EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -160,7 +160,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -174,8 +174,8 @@ categories_by_year AS (
   SELECT 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -201,7 +201,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -215,8 +215,8 @@ categories_by_year AS (
   SELECT 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -250,7 +250,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -264,8 +264,8 @@ categories_by_year AS (
   SELECT 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -309,8 +309,8 @@ SELECT
   END
   AS reviewmonth,
   mdm.categories
-FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
 ON mdm.asin = rdm.asin
 WHERE 
   EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -327,7 +327,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -341,8 +341,8 @@ categories_by_year AS (
   SELECT 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -385,8 +385,8 @@ categories_by_month_max_year AS (
     END
     AS reviewmonth,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -415,7 +415,7 @@ WITH count_years_reviews AS (
       EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64)))
     ) AS reviewsCount
   FROM
-    `<proyecto>.<dataset>.review_digital_music` AS rdm
+    `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
   ORDER BY reviewsCount DESC
 ),
 max_count_years AS (
@@ -429,8 +429,8 @@ categories_by_year AS (
   SELECT 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) AS reviewYear,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (
@@ -473,8 +473,8 @@ categories_by_month_max_year AS (
     END
     AS reviewmonth,
     mdm.categories
-  FROM `<proyecto>.<dataset>.review_digital_music` AS rdm
-  INNER JOIN `<proyecto>.<dataset>.meta_digital_music` AS mdm
+  FROM `<proyecto>.p3_visualizacion_data.review_digital_music` AS rdm
+  INNER JOIN `<proyecto>.p3_visualizacion_data.meta_digital_music` AS mdm
   ON mdm.asin = rdm.asin
   WHERE 
     EXTRACT(year FROM DATE(CAST(SUBSTR(rdm.reviewTime, -4) AS INT64), CAST(SUBSTR(rdm.reviewTime, 0 , 2) AS INT64), CAST(SUBSTR(rdm.reviewTime, -8, 2) AS INT64))) = (

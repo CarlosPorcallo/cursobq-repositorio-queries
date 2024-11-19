@@ -4,7 +4,7 @@ SELECT​
     COUNT(1) as conteo,​
     country​
 FROM​
-    `<proyecto>.<dataset>.customer`​
+    `<proyecto>.p1_carga_transformacion.customer`​
 GROUP BY country​
 
 /* Población de clientes por país */​
@@ -17,7 +17,7 @@ SELECT​
     COUNT(1) as conteo,​
     c.country​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.subscriptionDate BETWEEN DATE("2020-01-01") AND DATE("2020-12-12")​
 GROUP BY c.country​
@@ -32,7 +32,7 @@ SELECT​
     c.country,​
     c.city​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<country>' AND​
     c.subscriptionDate BETWEEN DATE("2020-01-01") AND DATE("2020-12-12")​
@@ -49,7 +49,7 @@ SELECT​
     c.city,​
     c.company​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<country>' AND​
     c.city IN (<cities_list>) AND​
@@ -67,7 +67,7 @@ SELECT​
     c.city,​
     c.company​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<country>' AND​
     c.city LIKE '%<name>%' AND​
@@ -85,7 +85,7 @@ SELECT​
     c.city,​
     c.company​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<>country' AND​
     c.company IN (<company-list>) AND​
@@ -117,7 +117,7 @@ SELECT​
     c.city,​
     c.company​
 FROM​
-    `<proyecto>.<dataset>.customer` as c​
+    `<proyecto>.p1_carga_transformacion.customer` as c​
 WHERE ​
     c.country = '<country>' AND​
     c.company IN (<company-list>) AND​
